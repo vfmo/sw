@@ -8,6 +8,10 @@ class orders extends Model
 {
     protected $fillables = array('*');
     protected $guarded = array();
-
+    
+    public function catalogs()
+    {
+        return $this->hasOne('App\catalogs','id','catalog_id');
+    }
 
 }

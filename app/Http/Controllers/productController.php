@@ -44,8 +44,6 @@ class productController extends Controller
         catalogs::where('id', $request->get("id") )->delete();
     }
 
-
-
     public function orderMenu(Request $request) {
         $orders = orders::get()->toArray();
         return view('pages.orderList', [ 'data' => $orders ] );       
@@ -58,12 +56,25 @@ class productController extends Controller
 
 
     public function addOrder( Request $request ) {
+
         $id = $request->id;
         if ( empty( $id ) ) {
-            $res = orders::create($request->all());
+            $res = orders::create($request->except('_token','country'));
         } else {
-            $res = orders::where("id", $id)->update( $request->all() );
+            $res = orders::where("id", $id)->update( $request->except('_token','country') );
         }
-        echo json_encode(array("id"=>"product_order"));
+        echo json_encode(array("id"=>"product_order" ));
     }
+                    
+    public function orderViewDetail( Request $request, $id ) {
+        $order = orders::where("id", $id)->with("catalogs")->first()->toArray();
+
+        return view('pages.orderViewDetail', [ 'data' => $order ] );       
+        
+    }
+
+    public function deleteOrder( Request $request ) {
+        orders::where('id', $request->get("id") )->delete();
+    }
+
 }

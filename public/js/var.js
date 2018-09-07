@@ -6,15 +6,11 @@ $.ajaxSetup({
     }
 });
 
-
-
 function _action_( event ) {
     event.preventDefault();
     $form = event.target.dataset;
     __get( $form.url, '' ).done( function( ret ) { $("#_body_").html("").html(ret); });
-    
 }
-
 
 function __post( url,data ){
     var def = $.Deferred();
@@ -35,8 +31,13 @@ function __get( url,data ){
 function __post__( url , data ) {
     __post( url, data ).done( function( ret ) {
         obj = JSON.parse( ret );
-        $("#"+obj.id).trigger("click");
+        if ( !!obj.msg ) {
+            
+        } else {
+            $("#"+obj.id).trigger("click");
+        }
     });
+    return false;
 }
 $(document).on("click", "button[class^=_cancelForm]", function( e ) {
     e.preventDefault();
@@ -56,12 +57,15 @@ $(document).on("click", "button[class^=_submitForm]", function( e ) {
 
     if ( i === 0 ) {
         $form = e.target.dataset;
-       
+        if ( ( $form.country ) &&  ( $form.country != "US" ) ) {
+            alert("Invalid US Address");
+            return false;
+        }
         var action   = $form.action;
         var data     = $('form[name='+$form.form+']').serialize();
         __post__( action , data );
     }
-
+    return false;
 });
 
 

@@ -18,9 +18,9 @@
    <tbody>
     @foreach ( $data as $key => $value )
     <tr id="tr-{{ $value['id'] }}">
-        <td><a class="_delete_"  data-id="{{ $value["id"] }}" >delete</a> </td>
-        <td><a class="_edit_"  data-id="{{ $value["id"] }}" >edit</a> </td>
-        <td><a class="_view_"  data-id="{{ $value["id"] }}" >view</a> </td>
+        <td><a class="_delete_"  data-id="{{ $value["id"] }}" ><i class="fas fa-trash"></i></a> </td>
+        <td><a class="_edit_"  data-id="{{ $value["id"] }}" ><i class="fas fa-edit" ></i></a> </td>
+        <td><a class="_view_"  data-id="{{ $value["id"] }}" ><i class="fas fa-eye" ></i></a> </td>
         <td class="has-text-right">{{ $value["product_name"] }}</td>
         {{--  <td>{{ $value["product_description"] }}</td>  --}}
         <td class="has-text-right">{{ $value["width"] }}</td>
@@ -37,17 +37,17 @@
 <script>
 $(function() {
     $("a[class=_delete_]").on("click", function(event) {
-        var answer = confirm("Continue to delete?")
+        var answer = confirm("This will delete any item exists in order. Continue to delete ?")
         if (answer) {
              $(this).closest('tr').remove();
-             __post__( "/productController/deleteProduct" , { "id" : event.target.dataset.id } );
+             __post__( "/productController/deleteProduct" , { "id" : $(this).data("id") } );
         }
     });
     $("a[class=_edit_]").on("click", function(event) {
-       __get( '/productController/productEditForm/'+event.target.dataset.id ).done( function( ret ) { $("#_body_").html("").html( ret ); });
+       __get( '/productController/productEditForm/'+$(this).data("id") ).done( function( ret ) { $("#_body_").html("").html( ret ); });
     });
     $("a[class=_view_]").on("click", function(event) {
-       __get( '/productController/productViewForm/'+event.target.dataset.id ).done( function( ret ) { $("#_body_").html("").html( ret ); });
+       __get( '/productController/productViewForm/'+$(this).data("id") ).done( function( ret ) { $("#_body_").html("").html( ret ); });
     });
 
 });

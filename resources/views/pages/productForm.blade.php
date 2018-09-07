@@ -145,8 +145,4 @@ input[type=number] {
 </div>
 </form>
 
-<script>
-
-
-
-</script>
+ 

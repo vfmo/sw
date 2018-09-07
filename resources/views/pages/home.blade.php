@@ -16,25 +16,16 @@ $(function() {
 
 function viewProductMenu( event ) {
     $form = event.target.dataset;
+    $('.is-active').removeClass('is-active');
+    $('ul li:nth-child(1)').addClass("is-active");
     __get( $form.url, '' ).done( function( ret ) { $("#_body_").html("").html(ret); });
 }
 
 function viewOrders( event ) {
     $form = event.target.dataset;
+    $('.is-active').removeClass('is-active');
+    $('ul li:nth-child(2)').addClass("is-active");
     __get( $form.url, '' ).done( function( ret ) { $("#_body_").html("").html(ret); });
-}
-
-
-function postSubmissionForm( event ) {
-
-//    var myDiv    = $form.div;
-//    var action   = $form.action;
-//    var data     = $('form[name='+$form.form+']').serialize();
-//    __get( action , data ).done( function( ret ) {
-//        $("."+myDiv).html("").html(ret);
-//    });
-
-
 }
 
 $(document).on("click", "button[class^=_viewForm]", function( e ) {

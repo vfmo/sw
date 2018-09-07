@@ -16,7 +16,11 @@ Route::prefix('productController')->group(function () {
 
     Route::get('orderMenu', 'productController@orderMenu');
     Route::get('orderForm', 'productController@orderForm');
+    Route::get('orderViewDetail/{id}', 'productController@orderViewDetail');
+
+
     Route::post('addOrder', 'productController@addOrder');    
+    Route::post('deleteOrder', 'productController@deleteOrder');    
 
 
 

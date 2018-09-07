@@ -20,7 +20,7 @@ input[type=number] {
 
 <form name="orderForm" >
 <input type="hidden" name="id" value="{{ $data['id'] or '' }}" >
-
+<input type="hidden" name="country" id="country" >
 
 <div class="field is-horizontal">
   <div class="field-label is-normal">
@@ -58,7 +58,7 @@ input[type=number] {
   <div class="field-body">
     <div class="field">
       <p class="control">
-        <input name="street_address" class="input" placeholder="Street Address" value="{{ $data['street_address'] or '' }}" >
+        <input name="street_address" id="location" class="input" placeholder="Street Address" value="{{ $data['street_address'] or '' }}" autocomplete="off"  >
     </div>
   </div>
 </div>
@@ -72,7 +72,7 @@ input[type=number] {
     
     <div class="field">
       <p class="control">
-        <input name="city" class="input" placeholder="City" value="{{ $data['city'] or '' }}" style="width: 150px;" required>
+        <input name="city" id="city" class="input" placeholder="City" value="{{ $data['city'] or '' }}" style="width: 150px;" required>
       </p>
     </div>
   </div>
@@ -87,13 +87,11 @@ input[type=number] {
   <div class="field-body">
     <div class="field">
       <p class="control">
-        <input name="state" class="input" placeholder="State" value="{{ $data['state'] or '' }}" style="width: 150px;" required>
+        <input name="state" id="state" class="input" placeholder="State" value="{{ $data['state'] or '' }}" style="width: 150px;" required>
       </p>
     </div>
   </div>
 </div>
-
-
 <div class="field is-horizontal">
   <div class="field-label is-normal">
     <label class="label">Zip Code</label>
@@ -101,7 +99,7 @@ input[type=number] {
   <div class="field-body">
     <div class="field">
       <p class="control">
-        <input name="zip_code" class="input"  placeholder="Zip Code" value="{{ $data['zip_code'] or '' }}" style="width: 150px;" required>
+        <input name="zip_code" id="zip_code" class="input"  placeholder="Zip Code" value="{{ $data['zip_code'] or '' }}" style="width: 150px;" required>
       </p>
     </div>
   </div>
@@ -143,6 +141,7 @@ input[type=number] {
             <button class="_submitForm button is-link "
                     data-action="/productController/addOrder"
                     data-form="orderForm"
+                    data-country="US"
             
             >Add</button>
         </div>
@@ -155,9 +154,58 @@ input[type=number] {
 </div>
 </div>
 </form>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCScHJS6NbJD0yOVL5uCy3kdkeupe4b3Gw&libraries=places&callback=initAutocomplete"
+async defer></script>
+
 
 <script>
+  var autocomplete;
+  var componentForm = {
+    street_number: 'short_name',
+    route: 'long_name',
+    locality: 'long_name',
+    administrative_area_level_1: 'short_name',
+    country: 'short_name',
+    postal_code: 'short_name'
+  };
 
+  function initAutocomplete() {
+    autocomplete = new google.maps.places.Autocomplete(
+    document.getElementById('location'),{ componentRestrictions: { country: 'US'  } });
+    autocomplete.addListener('place_changed', locationFill);
+  }
 
+  function locationFill() {
+    var place = autocomplete.getPlace();
+    var add = "";
+    for (var i = 0; i < place.address_components.length; i++) {
+      var addressType = place.address_components[i].types[0];
+      if (componentForm[addressType]) {
+        var val = place.address_components[i][componentForm[addressType]];
+        switch ( addressType ) {
+          case "street_number":
+            add = val+" ";
+            break;
+          case "route":
+            add += val;
+            break;
+          case "locality":
+            document.getElementById("city").value = val;
+            break;
+          case "administrative_area_level_1":
+            document.getElementById("state").value = val;
+            break;
+          case "country":
+            document.getElementById("country").value = val;
+            break;addressType
+          case "postal_code":addressType
+            document.getElementById("zip_code").value = val;
+            break;
 
+        }
+        document.getElementById("location").value = add;
+      }
+    }
+  }
 </script>
+ 

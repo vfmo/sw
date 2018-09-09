@@ -18,9 +18,10 @@
    <tbody>
     @foreach ( $data as $key => $value )
     <tr id="tr-{{ $value['id'] }}">
-        <td><a class="_delete_"  data-id="{{ $value["id"] }}" ><i class="fas fa-trash"></i></a> </td>
-        <td><a class="_edit_"  data-id="{{ $value["id"] }}" ><i class="fas fa-edit" ></i></a> </td>
-        <td><a class="_view_"  data-id="{{ $value["id"] }}" ><i class="fas fa-eye" ></i></a> </td>
+        <td><a class="_delete_"  data-id="{{ $value['id'] }}" ><i class="fas fa-trash"></i></a> </td>
+        <td><a class="_edit_"  data-id="{{ $value['id'] }}" ><i class="fas fa-edit" ></i></a> </td>
+        <td><a href="/{{ $value['short_url'] }}"  ><i class="fas fa-eye" ></i></a> </td>
+        {{--  <td><a class="_view_"  data-id="{{ $value["id"] }}" ><i class="fas fa-eye" ></i></a> </td>  --}}
         <td class="has-text-right">{{ $value["product_name"] }}</td>
         {{--  <td>{{ $value["product_description"] }}</td>  --}}
         <td class="has-text-right">{{ $value["width"] }}</td>

@@ -5,6 +5,8 @@ Route::get('/', function () {
     return view('pages.home');
 });
 
+Route::get('/{id}', 'productController@productViewForm' );
+
 Route::prefix('productController')->group(function () {
     
     Route::match(['get', 'post'], 'productForm', 'productController@productForm');

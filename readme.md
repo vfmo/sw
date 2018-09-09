@@ -2,6 +2,10 @@
 
 ## Shipwire challenge code
 
+Code was done in Laravel 5.6 MVC framework.
+
+Database was in MySQL.
+
 Online Shipwire application can access live @ http://207.246.93.246/ 
 
 Missing extra credit: Unit Test/Selenium
